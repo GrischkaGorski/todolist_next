@@ -1,1 +1,1 @@
-Creating To do list with NestJs and NextJs
+Creating To do list with NextJs
