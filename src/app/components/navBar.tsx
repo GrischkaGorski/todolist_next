@@ -21,7 +21,7 @@ export default function NavBar() {
                         </Link>
 
                         <Link href="/createTodo">
-                            Create list
+                            Create todo
                         </Link>
 
                         <Link href="/tags">
