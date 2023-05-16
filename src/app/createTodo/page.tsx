@@ -1,11 +1,11 @@
-export default async function Todos() {
+export default async function CreateTodo() {
     const data = await getData();
 
     console.log(data)
 
     return (
         <div>
-            <h1>Home page</h1>
+            <h1>Create todo page</h1>
             {data.map(e => <p>{e.title}</p>)}
         </div>
     )
