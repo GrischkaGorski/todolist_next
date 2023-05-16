@@ -6,7 +6,7 @@ export default async function Tags() {
     return (
         <div>
             <h1>Tags page</h1>
-            {data.map(e => <p>{e.title}</p>)}
+            {data.map((todo: any) => <p key={todo.id}>{todo.title}</p>)}
         </div>
     )
 }

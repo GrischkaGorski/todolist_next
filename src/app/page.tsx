@@ -1,3 +1,6 @@
+import React from 'react';
+
+
 export default async function Todos() {
     const data = await getData();
 
@@ -6,7 +9,9 @@ export default async function Todos() {
     return (
         <div>
             <h1>Home page</h1>
-            {data.map(e => <p>{e.title}</p>)}
+            {data.map((todo: any) =>
+                <p key={todo.id}>{todo.title}</p>
+            )}
         </div>
     )
 }

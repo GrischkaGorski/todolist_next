@@ -1,37 +1,39 @@
-"use client";
-import {Menu} from "antd";
-import type { MenuProps } from 'antd';
-import {useState} from "react";
-import Link from "next/link";
-
-const links: MenuProps['items'] = [
-    {
-        label: (<Link href="/">Home</Link>),
-        key: 'Todos',
-    },
-    {
-        label: (<Link href="/createTodo">Create todo</Link>),
-        key: 'CreateTodo',
-    },
-    {
-        label: (<Link href="/editTodo">Edit todo</Link>),
-        key: 'EditTodo',
-    },
-    {
-        label: (<Link href="/tags">Tags</Link>),
-        key: 'Tags',
-    },
-]
+"use client"
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import ListItem from '@mui/material/ListItem';
+import CssBaseline from '@mui/material/CssBaseline';
+import Toolbar from '@mui/material/Toolbar';
+import Link from 'next/link';
 
 export default function NavBar() {
-    const [current, setCurrent] = useState('mail');
-
-    const onClick: MenuProps['onClick'] = (e) => {
-        console.log('click ', e);
-        setCurrent(e.key);
-    };
 
     return (
-        <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={links}/>
+        <Box sx={{display: 'flex'}}>
+            <CssBaseline/>
+            <AppBar component="nav">
+                <Toolbar>
+                    <Stack direction="row" spacing={2}>
+                        <Link href="/">
+                            Todo list
+                        </Link>
+
+                        <Link href="/createTodo">
+                            Create list
+                        </Link>
+
+                        <Link href="/tags">
+                            Tags list
+                        </Link>
+
+                    </Stack>
+                </Toolbar>
+            </AppBar>
+        </Box>
+
     )
 }
+
+const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
