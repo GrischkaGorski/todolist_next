@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  frontend:
+    networks:
+      - my-proxy-net
+    container_name: nextjs-app
+    build:
+      context: ./
+      target: runner
+    volumes:
+      - .:/app
+    command: npm run dev
+    ports:
+      - "4200:4200"
+    environment:
+      NODE_ENV: development
+
+networks:
+    my-proxy-net:
+      external:
+        name: todolist
