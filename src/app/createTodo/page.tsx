@@ -1,45 +1,38 @@
 "use client"
-import React from 'react';
+import React, {useState} from 'react';
+import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 
-export default async function CreateTodo() {
-    const data = await getData();
+export default function CreateTodo() {
+    const [title, setTitle] = useState('')
+    console.log(title)
 
-    console.log(data)
+    const handleSubmit = (e:any) => {
+        // 👇 Send a fetch request to Backend API.
+        e.preventDefault();
+        fetch("/todos", {
+            method: "POST",
+            body: JSON.stringify({
+                title: title,
+            }),
+            headers: {
+                "content-type": "application/json",
+            },
+        }).catch((e) => console.log(e));
+    };
 
     return (
-        <div style={{margin: "0 auto"}}>
+        <div>
             <h1>Create todo page</h1>
-            <form action="/http://backend:3000/todos" method="post" style={{display: "flex", flexDirection: "column", flexGrow: 1}}>
-                <div style={{display: "flex", flexDirection: "column", gap: "12px"}}>
-                    <label>Title</label>
-                    <input style={{width: "300px"}} type="text"></input>
-                </div>
-                <div style={{display: "flex", flexDirection: "column", gap: "12px"}}>
-                    <label>Description</label>
-                    <input style={{width: "300px"}} type="text"></input>
-                </div>
-                <div style={{display: "flex", flexDirection: "column", gap: "12px"}}>
-                    <label>Tag</label>
-                    <input style={{width: "300px"}} type="text"></input>
-                </div>
-                <button type="submit">
-                    coucou sdsd
-                </button>
+            <form onSubmit={(e) => handleSubmit(e)}
+                  style={{display: "flex", flexDirection: "column", gap: "12px"}}>
+                <TextField
+                    id="outlined-basic" label="Title" variant="outlined" value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                />
+                <Button type="submit" variant="contained">Save</Button>
             </form>
         </div>
     )
 }
-
-async function getData() {
-    const res = await fetch('http://backend:3000/todos');
-
-    if (!res.ok) {
-        throw new Error('Failed to fetch data');
-    }
-    console.log("ok")
-
-    return res.json();
-}
-

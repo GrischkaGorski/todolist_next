@@ -10,7 +10,7 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
         <html lang="en">
         <body className={inter.className}>
         <NavBar/>
-        <div style={{marginTop: "80px"}}>
+        <div style={{margin: "80px auto 0 auto", width: "80%"}}>
             {children}
         </div>
         </body>
