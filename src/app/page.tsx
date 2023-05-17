@@ -1,33 +1,23 @@
-// "use client"
-// import {useEffect, useState} from "react";
-import {
-    Accordion,
-    AccordionSummary,
-    Typography,
-    AccordionDetails,
-    Chip
-} from "@mui/material";
-import IconButton from '@mui/material/IconButton';
-import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
-import PendingActionsIcon from '@mui/icons-material/PendingActions';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import styles from "./page.module.css";
-
 export default async function TodoList() {
-    // const [expanded, setExpanded] = useState(false);
     const data = await getData();
 
     console.log(data)
 
     return (
-        <div className={styles.homeContainer}>
+        <div>
             <h1 style={{color: "white"}}>A faire</h1>
             <div className="home_todos-container">
                 {data && (
-                    data.map((todo:any, index:number) =>
-                        <div key={index}>
+                    data.map((todo:any) =>
+                        <div key={todo.id} style={{border: "1px solid black"}}>
+                            <h2>Titre</h2>
                             <p>{todo.title}</p>
+                            {todo.description ? (
+                                <>
+                                    <h3>Description</h3>
+                                    <p>{todo.description}</p>
+                                </>
+                            ) : null}
                         </div>
                     )
                 )}
