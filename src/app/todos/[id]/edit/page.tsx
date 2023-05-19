@@ -10,14 +10,13 @@ export default async function EditTodoPage({params}: {params: { id: number }}) {
         "use server";
         const data = Object.fromEntries(formData.entries())
         await saveTodo(id, data)
-        revalidatePath(`/todos/${id}/edit`);
-        revalidatePath('/todos')
+        revalidatePath(`/todos`);
     }
 
     return (
         <main className={styles.main}>
             <div>
-                <h2>Modifier le todo #{todo.id}</h2>
+                <h2>Modifier le todo #{todo.id}: {todo.title}</h2>
                 <form action={upTodo} className={styles.form}>
                     <div>
                         <label htmlFor="title">Titre</label>
@@ -33,15 +32,15 @@ export default async function EditTodoPage({params}: {params: { id: number }}) {
                     </div>
                     <button type="submit">Modifier</button>
                 </form>
-                <Link href="/todos">
-                    Retourner a l'accueil
+                <Link href="/todos" prefetch={true}>
+                    Retourner aux todos
                 </Link>
             </div>
         </main>
     )
 }
 
-async function getTodo(id) {
+async function getTodo(id: number) {
     const res = await fetch(`http://backend:3000/todos/${id}`);
 
     if (!res.ok) {
@@ -51,7 +50,7 @@ async function getTodo(id) {
     return res.json();
 }
 
-async function saveTodo(id, data) {
+async function saveTodo(id: number, data: { title?: string, description?: string, done?: string}) {
     const res = await fetch(`http://backend:3000/todos/${id}`,
         {
             method: "POST",
