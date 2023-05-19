@@ -1,6 +1,5 @@
 import styles from './page.module.css'
-import Link from "next/link";
-import Todo from "@/components/todo";
+import Todo from "@/app/components/todo";
 
 async function getTodos() {
     const res = await fetch('http://backend:3000/todos');
@@ -22,7 +21,6 @@ export default async function TodoListPage() {
                 <>
                     <Todo todo={todo}/>
                 </>
-
             )}
         </main>
     );
