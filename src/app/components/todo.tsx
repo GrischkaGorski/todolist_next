@@ -2,7 +2,7 @@ import styles from "@/app/todos/page.module.css";
 import Link from "next/link";
 import {revalidatePath} from "next/cache";
 
-interface TodoProps {
+export interface TodoProps {
     todo: { id:number, title: string, description: string, done: boolean}
 }
 
@@ -25,8 +25,11 @@ export default function Todo({todo}: TodoProps) {
             </Link>
             <form action="">
                 <input readOnly type="number" name="id" value={todo.id} style={{display: "none"}}/>
-                <input formAction={suppTodo} type="submit"/>
+                <input formAction={suppTodo} type="submit" value="Supprimer"/>
             </form>
+            <div>
+                {todo.done ? "Tâche faite" : "A faire"}
+            </div>
         </>
     )
 }

@@ -1,16 +1,25 @@
 import styles from '../../page.module.css'
 import Link from "next/link";
 import {revalidatePath} from "next/cache";
+import { redirect } from "next/navigation";
 
-export default async function EditTodoPage({params}: {params: { id: number }}) {
-    const { id } = params
+
+export default async function EditTodoPage({params}: { params: { id: number } }) {
+    const {id} = params
     const todo = await getTodo(id)
 
-    async function upTodo( formData: FormData) {
+    async function upTodo(formData: FormData) {
         "use server";
         const data = Object.fromEntries(formData.entries())
         await saveTodo(id, data)
         revalidatePath(`/todos`);
+    }
+
+    async function suppTodo(formdata: FormData) {
+        "use server";
+        const {id} = Object.fromEntries(formdata.entries())
+        await deleteTodo(id as string);
+        redirect("/todos");
     }
 
     return (
@@ -35,6 +44,10 @@ export default async function EditTodoPage({params}: {params: { id: number }}) {
                 <Link href="/todos" prefetch={true}>
                     Retourner aux todos
                 </Link>
+                <form action="">
+                    <input readOnly type="number" name="id" value={todo.id} style={{display: "none"}}/>
+                    <input formAction={suppTodo} type="submit" value="Supprimer"/>
+                </form>
             </div>
         </main>
     )
@@ -50,14 +63,20 @@ async function getTodo(id: number) {
     return res.json();
 }
 
-async function saveTodo(id: number, data: { title?: string, description?: string, done?: string}) {
+async function saveTodo(id: number, data: { title?: string, description?: string, done?: string }) {
     const res = await fetch(`http://backend:3000/todos/${id}`,
         {
             method: "POST",
-            body: JSON.stringify({ ...data, done: data.done === 'on' }),
+            body: JSON.stringify({...data, done: data.done === 'on'}),
             headers: {
                 "Content-Type": "application/json",
             },
         });
+    return res.text();
+}
+
+async function deleteTodo(id: string) {
+    const res = await fetch(`http://backend:3000/todos/${id}/delete`)
+
     return res.text();
 }
